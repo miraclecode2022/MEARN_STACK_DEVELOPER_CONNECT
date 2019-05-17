@@ -118,12 +118,13 @@ router.post('/comment/:id',auth,async(req,res) => {
 router.post('/unlike/:id',auth, async(req,res) => {
     try{
         const post = await Post.findById(req.params.id)
-        // Check already like post
+        // Check already unlike post
         if(post.likes.filter(like => like.user.toString() == req.user._id).length == 0) {
             return res.status(400).send({ notLike : "You have not yet like this post" }) 
         } else {
             // get remove index and splice
-            const removeIndex = post.likes.map(item => item.user.toString()).indexOf(req.user._id)
+            // const removeIndex = await post.likes.map(item => item.user.toString()).indexOf(req.user._id)
+            let removeIndex = await post.likes.map(item => item.user.toString()).indexOf((req.user._id).toString())
             await post.likes.splice(removeIndex, 1)
             const newPost = await post.save()
             res.send(newPost)
@@ -144,7 +145,7 @@ router.delete('/comment/:id/:comment_id',auth,async(req,res) => {
             return res.status(404).send({ commentnotExists : "Comment not exists "})
         }
         // find index remove and splice
-        const removeIndex = post.comments.map(item => item.user.toString()).indexOf(req.user._id)
+        const removeIndex = post.comments.map(item => item.user.toString()).indexOf((req.user._id).toString())
         await post.comments.splice(removeIndex, 1)
         const newPost = await post.save()
         res.send(newPost)

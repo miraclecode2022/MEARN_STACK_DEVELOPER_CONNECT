@@ -12,7 +12,7 @@ class PostItem extends Component {
     }
 
     onUnlikePost = (id) => {
-        this.props.unlikePost(id)
+      this.props.unlikePost(id)
     }
 
     onDelete = (id) => {
