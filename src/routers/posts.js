@@ -134,10 +134,11 @@ router.post('/unlike/:id',auth, async(req,res) => {
     }
 })
 
-// @router  DELETE /posts/comment/:id/:comment_id
+// @router  DELETE /posts/comment/:post_id/:comment_id
 // @desc    Delete comment from post
 // @access  Private
 router.delete('/comment/:id/:comment_id',auth,async(req,res) => {
+    // console.log(req.params)
     try {
         const post = await Post.findById(req.params.id)
         // Check commnet exists
@@ -145,7 +146,8 @@ router.delete('/comment/:id/:comment_id',auth,async(req,res) => {
             return res.status(404).send({ commentnotExists : "Comment not exists "})
         }
         // find index remove and splice
-        const removeIndex = post.comments.map(item => item.user.toString()).indexOf((req.user._id).toString())
+        const removeIndex = await post.comments.map(item => item._id.toString()).indexOf((req.params.comment_id).toString())
+        // console.log(removeIndex)
         await post.comments.splice(removeIndex, 1)
         const newPost = await post.save()
         res.send(newPost)

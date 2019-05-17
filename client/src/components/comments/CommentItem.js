@@ -6,6 +6,7 @@ import {deleteComment} from '../../actions/postAction'
 class CommentItem extends Component {
 
     onDelete = (postId,commentId) => {
+        // console.log(postId, commentId)
         this.props.deleteComment(postId,commentId)
     }
 
@@ -13,17 +14,17 @@ class CommentItem extends Component {
         const { auth, postId, comment} = this.props
 
         return (
-            <div class="card card-body mb-3">
-                <div class="row">
-                    <div class="col-md-2">
+            <div className="card card-body mb-3">
+                <div className="row">
+                    <div className="col-md-2">
                     <a href="profile.html">
-                        <img class="rounded-circle d-none d-md-block" src={comment.avatar} alt={comment.name} />
+                        <img className="rounded-circle d-none d-md-block" src={comment.avatar} alt={comment.name} />
                     </a>
                     <br />
-                    <p class="text-center">{comment.name}</p>
+                    <p className="text-center">{comment.name}</p>
                     </div>
-                    <div class="col-md-10">
-                    <p class="lead">{comment.text}</p>
+                    <div className="col-md-10">
+                    <p className="lead">{comment.text}</p>
                     {comment.user === auth.user._id ? (
                     <button type="button" onClick={() => this.onDelete(postId,comment._id)}
                         className="btn btn-danger mr-1">
